@@ -1,24 +1,16 @@
-import React from 'react';
-import '../Assets/Header.css';
-
-class Header extends React.Component {
+import React, { Component } from 'react';
+import "../Assets/Header.css";
+export default class Header extends Component{
     render() {
         return(
-            <React.Fragment>
-                <header>
-                    <div className="titulo"> React Memorama</div>
-                    <div>
-                        <button className="boton-reiniciar">
-                            Reiniciar
-                        </button>
-                    </div>
-                    <div className="titulo">
-                        Intentos:
-                    </div>
-                </header>
-            </React.Fragment>
-        )
+            <header>
+                <div className="titulo">Memorama</div>
+                <div>
+                    <button className="boton-reiniciar"> Reiniciar</button>
+                </div>
+                <div className="titulo">Intentos:
+                </div>
+            </header>
+        );
     }
 }
-
-export default Header;

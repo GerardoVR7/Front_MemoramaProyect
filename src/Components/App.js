@@ -1,16 +1,33 @@
-import logo from '../logo.svg';
+import React, {Component} from "react";
 import '../Assets/App.css';
 import Header from "./Header";
-import Board from "./Board";
+import Tablero from "./Tablero";
+import construirBaraja from "../utils/construirBaraja";
 
 
-function App() {
-  return (
-    <div className="App">
-      <Header/>
-      <Board/>
-    </div>
-  );
+
+const  getEstadoInicial  = () => {
+    const baraja = construirBaraja();
+    return{
+        baraja
+    }
 }
-
-export default App;
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = getEstadoInicial();
+    }
+    render() {
+        return (
+            <div className="App">
+                <Header />
+                <Tablero
+                 baraja = {this.state.baraja}
+                />
+            </div>
+        )
+    }
+}
+    export
+    default
+    App;
