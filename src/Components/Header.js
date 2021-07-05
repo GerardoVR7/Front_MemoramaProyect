@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
-import "../Assets/Header.css";
-export default class Header extends Component{
+import '../Assets/Header.css';
+
+export default class Header extends Component {
     render() {
-        return(
+        return (
             <header>
-                <div className="titulo">Memorama</div>
+                <div className="titulo">React-Memoria</div>
                 <div>
-                    <button className="boton-reiniciar"> Reiniciar</button>
+                    <button className="boton-reiniciar" onClick={this.props.resetearPartida}>
+                        Reiniciar
+                    </button>
                 </div>
-                <div className="titulo">Intentos:
+                <div className="titulo">
+                    Intentos: {this.props.numeroDeIntentos}
                 </div>
             </header>
         );
     }
-}
+};
+
