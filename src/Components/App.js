@@ -7,17 +7,15 @@ import { io } from 'socket.io-client'
 
 
 const getEstadoInicial = () => {
-    const baraja = construirBaraja();
-
+    const baraj = construirBaraja();
+    //const baraja = componentDidMount();
     return {
-        baraja,
+        baraja: [],
         parejaSeleccionada: [],
         estaComparando: false,
         numeroDeIntentos: 0
     };
 }
-
-
 
 class App extends Component {
 
@@ -31,11 +29,11 @@ class App extends Component {
             console.log(data)
         })
 
-        /*socket.on('deck' , (data) => {
+        socket.on('deck' , (data) => {
             const baraja2 = data
             this.handleDeck(baraja2)
             console.log(baraja2)
-        } )*/
+        } )
 
     }
 
@@ -102,7 +100,7 @@ class App extends Component {
                 estaComparando: false,
                 numeroDeIntentos: this.state.numeroDeIntentos + 1
             })
-        }, 1000)
+        }, 500)
     }
 
     verificarSiHayGanador(baraja) {
