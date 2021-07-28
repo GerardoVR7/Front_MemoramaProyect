@@ -3,7 +3,7 @@ import Header from './Header';
 import Tablero from './Tablero';
 import '../Assets/App.css';
 import {io} from 'socket.io-client'
-
+import Swal from 'sweetalert2'
 
 const getEstadoInicial = () => {
 
@@ -28,11 +28,19 @@ class App extends Component {
             console.log(data)
         })
 
+
             socket.on('deck' , (data) => {
                 let baraja2 = data
                 this.handleDeck(baraja2)
                 console.log(baraja2)
             } )
+
+    }
+
+    reset(){
+        const socket = io.connect('ws://localhost:3000')  //direccion del servidor y coneccion por medio del socket
+        let inicio = true
+        socket.emit('iniciar', inicio)
 
     }
 
@@ -112,13 +120,32 @@ class App extends Component {
         if (
             baraja.filter((carta) => !carta.fueAdivinada).length === 0
         ) {
-            alert(`Ganaste en ${this.state.numeroDeIntentos} intentos!`);
+            Swal.fire({
+                title: `Has ganado con ${this.state.numeroDeIntentos} intentos !!`,
+                icon: 'success',
+                showCancelButton: false,
+                confirmButtonText: 'Volver a jugar' ,
+                confirmButtonText2:this.resetearPartida(),
+                timer:5000
+            })
+        }
+        if (this.state.numeroDeIntentos > 35){
+            Swal.fire({
+                title: `Has perdido has superado los 35 intentos :(`,
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Volver a intentar' ,
+                confirmButtonText2:this.resetearPartida(),
+                timer:5000
+            })
         }
     }
 
     resetearPartida() {
+        this.render()
         this.setState(
-            getEstadoInicial()
+            getEstadoInicial(),
+            this.componentDidMount()
         );
     }
 }
