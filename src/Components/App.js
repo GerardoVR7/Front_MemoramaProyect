@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Header from './Header';
 import Tablero from './Tablero';
 import '../Assets/App.css';
-import construirBaraja from '../utils/construirBaraja';
-import { io } from 'socket.io-client'
+import {io} from 'socket.io-client'
 
 
 const getEstadoInicial = () => {
-    const baraj = construirBaraja();
-    //const baraja = componentDidMount();
+
     return {
         baraja: [],
         parejaSeleccionada: [],
@@ -23,23 +21,25 @@ class App extends Component {
         super(props);
         this.state = getEstadoInicial();
     }
+
     componentDidMount(){
-        const socket = io.connect('ws://localhost:3000')  //'ws://localhost:3000'
+        const socket = io.connect('ws://localhost:3000')  //direccion del servidor y coneccion por medio del socket
         socket.on('connection', (data) =>{
             console.log(data)
         })
 
-        socket.on('deck' , (data) => {
-            const baraja2 = data
-            this.handleDeck(baraja2)
-            console.log(baraja2)
-        } )
+            socket.on('deck' , (data) => {
+                let baraja2 = data
+                this.handleDeck(baraja2)
+                console.log(baraja2)
+            } )
 
     }
 
     handleDeck (deck) {
         this.setState({baraja: deck})
     }
+
 
     render() {
         return (
@@ -48,6 +48,7 @@ class App extends Component {
                     numeroDeIntentos={this.state.numeroDeIntentos}
                     resetearPartida={() => this.resetearPartida()}
                 />
+
                 <Tablero
                     baraja={this.state.baraja}
                     parejaSeleccionada={this.state.parejaSeleccionada}
@@ -56,6 +57,7 @@ class App extends Component {
             </div>
         );
     }
+
 
     seleccionarCarta(carta) {
         if (
@@ -70,6 +72,7 @@ class App extends Component {
         this.setState({
             parejaSeleccionada
         });
+
 
         if (parejaSeleccionada.length === 2) {
             this.compararPareja(parejaSeleccionada);
@@ -88,6 +91,7 @@ class App extends Component {
                     if (carta.icono !== primeraCarta.icono) {
                         return carta;
                     }
+                    console.log(carta)
 
                     return {...carta, fueAdivinada: true};
                 });
@@ -100,6 +104,7 @@ class App extends Component {
                 estaComparando: false,
                 numeroDeIntentos: this.state.numeroDeIntentos + 1
             })
+
         }, 500)
     }
 
